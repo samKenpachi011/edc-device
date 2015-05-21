@@ -3,7 +3,12 @@ __pycache__/
 *.py[cod]
 .project
 .pydevproject
+<<<<<<< HEAD
 .settings/
+=======
+.settings
+_build/
+>>>>>>> release/0.0.0a0
 # C extensions
 *.so
 
