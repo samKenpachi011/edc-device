@@ -11,12 +11,12 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='edc-device',
-    version='0.1.4',
+    version='0.0.0a0',
     author=u'Erik van Widenfelt',
     author_email='ew2789@gmail.com',
     packages=find_packages(),
     include_package_data=True,
-    url='https://github.com/erikvw/edc-device',
+    url='https://github.com/botswana-harvard/edc-device',
     license='GPL license, see LICENSE',
     description='get the device ID',
     long_description=README,
@@ -24,7 +24,6 @@ setup(
     keywords='django contenttype',
     install_requires=[
         'Django>=1.7',
-        'django-extensions>=1.5.5',
         'unipath>=1.1',
     ],
     classifiers=[
