@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/botswana-harvard/edc-device.svg?branch=develop)](https://travis-ci.org/botswana-harvard/edc-device)
+
 # edc-device
 
 Installation
