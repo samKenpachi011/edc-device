@@ -2,6 +2,11 @@
 
 # edc-device
 
+The Edc supports multiple off-line data collection clients. In such an environment a unique device ID is used to seed unique subject and sample identifiers created when offline. The group of clients should be configured each to have a unique ID, such as a two digit number, before deployment. 
+
+Other functions also ask `edc_device` if the deployment is a server (central or community), a "middleman" machine, or a client. 
+
+See also `edc_sync`.
 
 Setup
 -----
