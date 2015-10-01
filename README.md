@@ -16,6 +16,7 @@ A client might look like this:
 	SERVER_DEVICE_ID_LIST = [97, 98, 99]
 	MIDDLEMAN_DEVICE_ID_LIST = [95, 96]
 
+	>>> from edc_device import device
 	>>> str(device)
 	'18'
 	>>> device.is_client
@@ -28,6 +29,7 @@ A community server might look like this:
 	SERVER_DEVICE_ID_LIST = [97, 98, 99]
 	MIDDLEMAN_DEVICE_ID_LIST = [95, 96]
 
+	>>> from edc_device import device
 	>>> str(device)
 	'98'
 	>>> device.is_community_server
@@ -41,6 +43,7 @@ A middleman server might look like this:
 	SERVER_DEVICE_ID_LIST = [97, 98, 99]
 	MIDDLEMAN_DEVICE_ID_LIST = [95, 96]
 
+	>>> from edc_device import device
 	>>> str(device)
 	'95'
 	>>> device.is_middleman
@@ -53,8 +56,7 @@ The central server might look like this:
 	SERVER_DEVICE_ID_LIST = [97, 98, 99]
 	MIDDLEMAN_DEVICE_ID_LIST = [95, 96]
 
-then 
-
+	>>> from edc_device import device
 	>>> str(device)
 	'99'
 	>>> device.is_central_server
