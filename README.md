@@ -5,9 +5,9 @@
 
 The Edc supports multiple off-line data collection clients. In such an environment a unique device ID is used to seed unique subject and sample identifiers created when offline. The group of clients should be configured each to have a unique ID, the `DEVICE_ID`, before deployment.
 
-Other functions also ask `edc_device.device` for the role of the device. For example, is it a server (central or community), a "middleman" machine, or a client. Knowing this is useful, for example, if a server is not allowed to allocate new subject_identifiers.
+Other functions also ask `Device` for the role of the device. For example, is it a server (central or community), a "middleman" machine, or a client. Knowing this is useful, for example, if a server is not allowed to allocate new subject_identifiers.
 
-The `device` global is configured through `settings.py` attributes where a unique `DEVICE_ID` is allocated to each machine.
+By default, `Device` is configured through `settings.py` attributes where a unique `DEVICE_ID` is allocated to each machine.
 
 A client might look like this:
 
@@ -16,7 +16,8 @@ A client might look like this:
 	SERVER_DEVICE_ID_LIST = [97, 98, 99]
 	MIDDLEMAN_DEVICE_ID_LIST = [95, 96]
 
-	>>> from edc_device import device
+	>>> from edc_device import Device
+	>>> device = Device()
 	>>> str(device)
 	'18'
 	>>> device.is_client
@@ -29,7 +30,8 @@ A community server might look like this:
 	SERVER_DEVICE_ID_LIST = [97, 98, 99]
 	MIDDLEMAN_DEVICE_ID_LIST = [95, 96]
 
-	>>> from edc_device import device
+	>>> from edc_device import Device
+    >>> device = Device()
 	>>> str(device)
 	'98'
 	>>> device.is_community_server
@@ -43,7 +45,8 @@ A middleman server might look like this:
 	SERVER_DEVICE_ID_LIST = [97, 98, 99]
 	MIDDLEMAN_DEVICE_ID_LIST = [95, 96]
 
-	>>> from edc_device import device
+	>>> from edc_device import Device
+    >>> device = Device()
 	>>> str(device)
 	'95'
 	>>> device.is_middleman
@@ -56,7 +59,8 @@ The central server might look like this:
 	SERVER_DEVICE_ID_LIST = [97, 98, 99]
 	MIDDLEMAN_DEVICE_ID_LIST = [95, 96]
 
-	>>> from edc_device import device
+	>>> from edc_device import Device
+    >>> device = Device()
 	>>> str(device)
 	'99'
 	>>> device.is_central_server
