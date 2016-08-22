@@ -30,6 +30,13 @@ Include in your `urls.py`:
         ...
     ]
     
+To get to the Edc Device home page, reverse the url like this:
+
+    reverse('edc_device:home_url')
+
+
+## Using in your code
+    
 
 A `client` might look like this:
 
