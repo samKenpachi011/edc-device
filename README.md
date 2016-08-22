@@ -22,6 +22,15 @@ Device information is set in `edc_device.apps.AppConfig`. You should subclass in
         myapp.apps.AppConfig',
     ]
 
+Include in your `urls.py`:
+
+    urlpatterns = [
+        ...
+        url(r'^edc_device/', include('edc_device.urls', namespace='edc-device')),
+        ...
+    ]
+    
+
 A `client` might look like this:
 
     class EdcDeviceAppConfig(EdcDeviceAppConfigParent):
@@ -88,3 +97,12 @@ The central server might look like this:
 
 
 See also `edc_sync`.
+
+
+### Example Project
+
+To run the example app:
+
+    python manage.py migrate --settings=example.settings
+    python manage.py createsuperuser --settings=example.settings
+    python manage.py runserver --settings=example.settings
