@@ -22,6 +22,8 @@ setup(
     long_description=README,
     zip_safe=False,
     keywords='django contenttype',
+    install_requires=[
+        'django-ipware'],
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
