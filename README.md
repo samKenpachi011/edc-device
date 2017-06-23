@@ -1,11 +1,11 @@
+# edc-device
+
 [![Build Status](https://travis-ci.org/botswana-harvard/edc-device.svg?branch=develop)](https://travis-ci.org/botswana-harvard/edc-device)
 [![Coverage Status](https://coveralls.io/repos/botswana-harvard/edc-device/badge.svg?branch=develop&service=github)](https://coveralls.io/github/botswana-harvard/edc-device?branch=develop)
 
-# edc-device
-
 The Edc supports multiple off-line data collection clients. In such an environment a unique device ID is used to seed unique subject and sample identifiers created when offline. The group of clients should be configured each to have a unique ID, the `device_id`, before deployment.
 
-Other functions might need to know the `role` of the device. For example, is it a server (central or community), a "middleman" machine, or a client. Knowing this is useful, for example, if a server is not allowed to allocate new subject_identifiers.
+Other functions might need to know the `device_role`. For example, is it a server (central or community), a "middleman" machine, or a client. Knowing this is useful, for example, if a server is not allowed to allocate new subject_identifiers.
 
 Device information is set in `edc_device.apps.AppConfig`. You should subclass into your projects `apps.py` like this, for example:
 
@@ -42,7 +42,7 @@ A `client` might look like this:
 
     class EdcDeviceAppConfig(EdcDeviceAppConfigParent):
         device_id = '18'
-    	server_id_list = [97, 98, 99]
+    	node_server_id_list = [97, 98, 99]
     	middleman_id_list = [95, 96]
 
 	>>> from django.apps import apps as django_apps
@@ -51,14 +51,14 @@ A `client` might look like this:
 	'18'
 	>>> app_config.is_client
 	True
-    >>> app_config.role
+    >>> app_config.device_role
     'Client'
 
 A node server server might look like this:
 
     class EdcDeviceAppConfig(EdcDeviceAppConfigParent):
         device_id = '98'
-        server_id_list = [97, 98, 99]
+        node_server_id_list = [97, 98, 99]
         middleman_id_list = [95, 96]
 
     >>> from django.apps import apps as django_apps
@@ -67,14 +67,14 @@ A node server server might look like this:
     '98'
     >>> app_config.is_node_server
     True
-    >>> app_config.role
+    >>> app_config.device_role
     'NodeServer'
 
 A middleman server might look like this:
 
     class EdcDeviceAppConfig(EdcDeviceAppConfigParent):
         device_id = '95'
-        server_id_list = [97, 98, 99]
+        node_server_id_list = [97, 98, 99]
         middleman_id_list = [95, 96]
 
     >>> from django.apps import apps as django_apps
@@ -83,14 +83,14 @@ A middleman server might look like this:
     '95'
     >>> app_config.is_middleman
     True
-    >>> app_config.role
+    >>> app_config.device_role
     'Middleman'
 
 The central server might look like this:
 
     class EdcDeviceAppConfig(EdcDeviceAppConfigParent):
         device_id = '99'
-        server_id_list = [97, 98, 99]
+        node_server_id_list = [97, 98, 99]
         middleman_id_list = [95, 96]
 
     >>> from django.apps import apps as django_apps
@@ -99,17 +99,8 @@ The central server might look like this:
     '99'
     >>> app_config.is_middleman
     True
-    >>> app_config.role
+    >>> app_config.device_role
     'CentralServer'
 
 
 See also `edc_sync`.
-
-
-### Example Project
-
-To run the example app:
-
-    python manage.py migrate --settings=example.settings
-    python manage.py createsuperuser --settings=example.settings
-    python manage.py runserver --settings=example.settings
