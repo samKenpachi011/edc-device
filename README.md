@@ -1,7 +1,6 @@
 # edc-device
 
-[![Build Status](https://travis-ci.org/botswana-harvard/edc-device.svg?branch=develop)](https://travis-ci.org/botswana-harvard/edc-device)
-[![Coverage Status](https://coveralls.io/repos/botswana-harvard/edc-device/badge.svg?branch=develop&service=github)](https://coveralls.io/github/botswana-harvard/edc-device?branch=develop)
+[![Build Status](https://travis-ci.org/botswana-harvard/edc-device.svg?branch=develop)](https://travis-ci.org/botswana-harvard/edc-device) [![Coverage Status](https://coveralls.io/repos/github/botswana-harvard/edc-device/badge.svg?branch=develop)](https://coveralls.io/github/botswana-harvard/edc-device?branch=develop)
 
 The Edc supports multiple off-line data collection clients. In such an environment a unique device ID is used to seed unique subject and sample identifiers created when offline. The group of clients should be configured each to have a unique ID, the `device_id`, before deployment.
 
