@@ -151,6 +151,17 @@ Models declared with the `EdcDeviceModelMixin` check the device permissions coll
     class TestModel(BaseUuidModel):
         pass
         
+
+### Declaring device permissions directly on model Meta class:
+
+You can declare device permissions on `meta.device_permissions` in the same way as above.
+
+    [...]
+    class Meta:
+        device_permissions = DevicePermissions(...)
+        
+Both Meta and AppConfig device permissions will be called, where the Meta class will be called. first.
+
 ### Disable device permissions by model instance:
 
 You can disable device permissions _per model instance_ by setting `check_device_permissions` to `False`
