@@ -152,15 +152,15 @@ Models declared with the `EdcDeviceModelMixin` check the device permissions coll
         pass
         
 
-### Declaring device permissions directly on model Meta class:
+### Declaring device permissions directly on model `Meta` class:
 
-You can declare device permissions on `meta.device_permissions` in the same way as above.
+You can declare device permissions on `Meta.device_permissions` in the same way as above.
 
     [...]
     class Meta:
         device_permissions = DevicePermissions(...)
         
-Both Meta and AppConfig device permissions will be called, where the Meta class will be called. first.
+Both `Meta` and `AppConfig` device permissions will be called, where the `Meta` class object will be called first.
 
 ### Disable device permissions by model instance:
 
