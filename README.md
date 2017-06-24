@@ -171,7 +171,7 @@ You can disable device permissions _per model instance_ by setting `check_device
 
 The ADD and CHANGE device permission objects by default inspect the model's `id`. If `obj.id` is `None`, it as an ADD model operation; If `obj.id` is not `None`, it is a CHANGE model operation.
 
-You can change this by overriding the `model_operation` method. The `model_operation` must return `None` or `self.label`.
+You can change this by overriding the `model_operation` method. The `model_operation` must return `None` or some value, such as `self.label`.
 
 For example:
 
