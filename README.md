@@ -2,16 +2,21 @@
 
 [![Build Status](https://travis-ci.org/botswana-harvard/edc-device.svg?branch=develop)](https://travis-ci.org/botswana-harvard/edc-device) [![Coverage Status](https://coveralls.io/repos/github/botswana-harvard/edc-device/badge.svg?branch=develop)](https://coveralls.io/github/botswana-harvard/edc-device?branch=develop)
 
-The Edc supports multiple off-line data collection clients. In such an environment a unique device ID is used to seed unique subject and sample identifiers created when offline. The group of clients should be configured each to have a unique ID, the `device_id`, before deployment.
+`edc-device` provides device roles unique device IDs for hosts and clients where the hostname may not be reliable. Hosts can be group as servers, clients, node_servers and some of their functionality limited according to this role.
 
-Other functions might need to know the `device_role`. For example, is it a server (central or community), a "middleman" machine, or a client. Knowing this is useful, for example, if a server is not allowed to allocate new subject_identifiers.
+A unique device ID is used to seed unique subject and sample identifiers. Uniqueness is evaluated during deployment.
 
-Device information is set in `edc_device.apps.AppConfig`. You should subclass into your projects `apps.py` like this, for example:
+Device information is set in and read from `edc_device.apps.AppConfig`.
+
+You should subclass into your projects `apps.py` like this, for example:
 
     from edc_device.apps import AppConfig as EdcDeviceAppConfigParent
     
     class EdcDeviceAppConfig(EdcDeviceAppConfigParent):
         device_id = '32'
+        device_role = CLIENT
+        device_permissions = DevicePermissions(
+            plot_add, plot_change, ...)
 
 ... and then in your settings:
 
@@ -34,7 +39,7 @@ To get to the Edc Device home page, reverse the url like this:
     reverse('edc_device:home_url')
 
 
-## Using in your code
+## Usage
     
 
 A `client` might look like this:
@@ -103,3 +108,78 @@ The central server might look like this:
 
 
 See also `edc_sync`.
+
+
+## Device Permissions by Model
+
+You can use the device role, or the device ID, to limit ADD/CHANGE permissions on a model.
+
+`edc-device` AppConfig maintains a collection of `DeviceAddPermission` and `DeviceChangePermission` instances that are inspected in the `save` method of a model using the `DeviceModelMixin`.
+
+To declare a `DeviceAddPermission` object:
+
+    test_model_add = DeviceAddPermission(
+        model='my_app.mymodel, device_roles=[NODE_SERVER, CENTRAL_SERVER])
+
+To declare a `DeviceChangePermission` object:
+
+    test_model_change = DeviceChangePermission(
+        model='my_app.mymodel, device_roles=[CLIENT])
+
+This means that if `app_config.device_role` is anything other than `NODE_SERVER` or `CENTRAL_SERVER`, the save method will raise a `DevicePermissionsAddError`.
+
+To register the instances with `edc_device.apps.AppConfig.device_permissions`:
+
+    device_permissions = DevicePermissions(test_model_add, test_model_change)
+
+This means that if `app_config.device_role` is anything other than `CLIENT`, the save method will raise a `DevicePermissionsChangeError`.
+
+On boot up you should see:
+
+    Loading Edc Device ...
+      * device id is '10'.
+      * device role is 'Client'.
+      * device permissions exist for:
+        - edc_device.testmodel ADD NodeServer,CentralServer
+        - edc_device.testmodel CHANGE Client
+    Done loading Edc Device.
+
+Models declared with the `EdcDeviceModelMixin` check the device permissions collection on save. Note the model mixin is already declared with `BaseUuidModel`.
+
+    from edc_base.model_mixins import BaseUuidModel
+
+    class TestModel(BaseUuidModel):
+        pass
+        
+### Disable device permissions by model instance:
+
+You can disable device permissions _per model instance_ by setting `check_device_permissions` to `False`
+
+
+### Customizing Device Permissions
+
+The ADD and CHANGE device permission objects by default inspect the model's `id`. If `obj.id` is `None`, it as an ADD model operation; If `obj.id` is not `None`, it is a CHANGE model operation.
+
+You can change this by overriding the `model_operation` method. The `model_operation` must return `None` or `self.label`.
+
+For example:
+
+    # default for DeviceAddPermission
+    label = 'ADD'
+    
+    def model_operation(self, model_obj=None, **kwargs):
+        if not model_obj.id:
+            return self.label
+        return None
+
+    # overridden
+    def model_operation(self, model_obj=None, **kwargs):
+        """Return ADD if both id and plot identifier are None.
+        """
+        if not model_obj.id and not obj.plot_identifier:
+            return self.label
+        return None
+
+
+
+        
