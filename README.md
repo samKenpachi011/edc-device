@@ -157,7 +157,7 @@ Models declared with the `EdcDeviceModelMixin` check the device permissions coll
 You can declare device permissions on `Meta.device_permissions` in the same way as above.
 
     [...]
-    class Meta:
+    class Meta(DeviceModelMixin.Meta):
         device_permissions = DevicePermissions(...)
         
 Both `Meta` and `AppConfig` device permissions will be called, where the `Meta` class object will be called first.
