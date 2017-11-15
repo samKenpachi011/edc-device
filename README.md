@@ -30,7 +30,7 @@ Include in your `urls.py`:
 
     urlpatterns = [
         ...
-        url(r'^edc_device/', include('edc_device.urls', namespace='edc-device')),
+        path('edc_device/', include('edc_device.urls')),
         ...
     ]
     
