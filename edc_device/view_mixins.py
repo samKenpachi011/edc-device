@@ -1,4 +1,4 @@
-from ipware.ip import get_ip, get_real_ip
+
 
 from django.apps import apps as django_apps
 
@@ -17,14 +17,9 @@ class EdcDeviceViewMixin:
 
     @property
     def ip_address(self):
-        request = self.request
-        try:
-            ip_address = get_real_ip(request)
-        except AttributeError:
-            ip_address = None
-        if not ip_address:
-            try:
-                ip_address = get_ip(request)
-            except AttributeError:
-                ip_address = None
-        return ip_address
+        x_forwarded_for = self.request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = self.request.META.get('REMOTE_ADDR')
+        return ip
