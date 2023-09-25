@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'edc_navbar.apps.AppConfig',
     'edc_base.apps.AppConfig',
     'edc_device.apps.AppConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -128,3 +129,5 @@ GIT_DIR = BASE_DIR
 
 # DEVICE_ID = None
 # DEVICE_ROLE = None
+ADVERSE_EVENT_APP_LABEL = 'edc_adverse_event'
+ADVERSE_EVENT_ADMIN_SITE = 'edc_adverse_event_admin'
