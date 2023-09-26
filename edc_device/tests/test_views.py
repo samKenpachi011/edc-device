@@ -1,5 +1,5 @@
 from django.apps import apps as django_apps
-from django.test import TestCase
+from django.test import TestCase, tag
 from django.test.client import RequestFactory
 from django.views.generic.base import ContextMixin
 from django.test.utils import override_settings
@@ -18,8 +18,8 @@ class TestHomeView(TestCase):
 
     def setUp(self):
         self.view = HomeView()
-        self.view.request = RequestFactory()
-        self.view.request.META = {'HTTP_CLIENT_IP': '1.1.1.1'}
+        request_fac = RequestFactory(HTTP_X_FORWARDED_FOR='1.1.1.1')
+        self.view.request = request_fac.request()
 
     def test_context(self):
         context = self.view.get_context_data()
@@ -35,8 +35,10 @@ class TestViewMixin(TestCase):
 
     def setUp(self):
         self.view = TestView()
-        self.view.request = RequestFactory()
-        self.view.request.META = {'HTTP_CLIENT_IP': '1.1.1.1'}
+        request_fac = RequestFactory(HTTP_X_FORWARDED_FOR='1.1.1.1')
+        self.view.request = request_fac.request()
+
+
 
     def test_context(self):
         context = self.view.get_context_data()
@@ -54,14 +56,13 @@ class TestViewMixin(TestCase):
             self.assertEqual(context.get('device_id'), '10')
             self.assertEqual(context.get('device_role'), CLIENT)
 
-    # def test_context_ip(self):
+    def test_context_ip(self):
 
-    #     context = self.view.get_context_data()
+        context = self.view.get_context_data()
 
-    #     self.assertEqual(context.get('ip_address'), '1.1.1.1')
+        self.assertEqual(context.get('ip_address'), '1.1.1.1')
 
-    # def test_context_ip_missing_meta(self):
-
-    #     del self.view.request.META
-    #     context = self.view.get_context_data()
-    #     self.assertEqual(context.get('ip_address'), None)
+    def test_context_ip_missing_meta(self):
+        context = self.view.get_context_data()
+        del context['ip_address']
+        self.assertEqual(context.get('ip_address'), None)
