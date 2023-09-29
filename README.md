@@ -1,4 +1,5 @@
 # edc-device
+[![Build Status](https://app.travis-ci.com/samKenpachi011/edc-device.svg?branch=develop)](https://app.travis-ci.com/samKenpachi011/edc-device)
 [![Coverage Status](https://coveralls.io/repos/github/samKenpachi011/edc-device/badge.svg?branch=develop)](https://coveralls.io/github/samKenpachi011/edc-device?branch=develop)
 
 `edc-device` provides device roles unique device IDs for hosts and clients where the hostname may not be reliable. Hosts can be group as servers, clients, node_servers and some of their functionality limited according to this role.
@@ -10,7 +11,7 @@ Device information is set in and read from `edc_device.apps.AppConfig`.
 You should subclass into your projects `apps.py` like this, for example:
 
     from edc_device.apps import AppConfig as EdcDeviceAppConfigParent
-    
+
     class EdcDeviceAppConfig(EdcDeviceAppConfigParent):
         device_id = '32'
         device_role = CLIENT
@@ -32,14 +33,14 @@ Include in your `urls.py`:
         path('edc_device/', include('edc_device.urls')),
         ...
     ]
-    
+
 To get to the Edc Device home page, reverse the url like this:
 
     reverse('edc_device:home_url')
 
 
 ## Usage
-    
+
 
 A `client` might look like this:
 
@@ -149,7 +150,7 @@ Models declared with the `EdcDeviceModelMixin` check the device permissions coll
 
     class TestModel(BaseUuidModel):
         pass
-        
+
 
 ### Declaring device permissions directly on model `Meta` class:
 
@@ -158,7 +159,7 @@ You can declare device permissions on `Meta.device_permissions` in the same way 
     [...]
     class Meta(DeviceModelMixin.Meta):
         device_permissions = DevicePermissions(...)
-        
+
 Both `Meta` and `AppConfig` device permissions will be called, where the `Meta` class object will be called first.
 
 ### Disable device permissions by model instance:
@@ -176,7 +177,7 @@ For example:
 
     # default for DeviceAddPermission
     label = 'ADD'
-    
+
     def model_operation(self, model_obj=None, **kwargs):
         if not model_obj.id:
             return self.label
@@ -189,7 +190,3 @@ For example:
         if not model_obj.id and not obj.plot_identifier:
             return self.label
         return None
-
-
-
-        
