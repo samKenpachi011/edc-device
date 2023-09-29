@@ -1,6 +1,5 @@
 # edc-device
-
-[![Build Status](https://travis-ci.org/botswana-harvard/edc-device.svg?branch=develop)](https://travis-ci.org/botswana-harvard/edc-device) [![Coverage Status](https://coveralls.io/repos/github/botswana-harvard/edc-device/badge.svg?branch=develop)](https://coveralls.io/github/botswana-harvard/edc-device?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/samKenpachi011/edc-device/badge.svg?branch=develop)](https://coveralls.io/github/samKenpachi011/edc-device?branch=develop)
 
 `edc-device` provides device roles unique device IDs for hosts and clients where the hostname may not be reliable. Hosts can be group as servers, clients, node_servers and some of their functionality limited according to this role.
 
